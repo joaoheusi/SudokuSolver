@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/6535701e99.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./static/mystyle.css">
+    <title>Sudoku Solver</title>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Sudoku Solver App</h1>
+            <br><br>
+        </div>
+
+    {% if newmatrix%}
+    <div class="content">
+    <div class="text-center">
+    <table class="justify-content-center">
+        {% for lines in newmatrix %}
+        <tr>
+            {% for item in lines %}
+                <td style='background-color: {{item}}'> {{color_pallete.index(item)}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+    </div>
+    {% else %}
+    <p>Something went wrong</p>
+    {% endif%}
+
+
+</body>
+</html>

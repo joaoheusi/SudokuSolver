@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/6535701e99.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./static/style.css">
+    <title>Sudoku Solver</title>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Sudoku Solver App</h1>
+            <br><br>
+        </div>
+        <div class="sudokuform">
+            <form action="/sudoku" method="POST" class="reveal-content">
+                <div class="form-group">
+                    <label for="boardSize">Board Size</label>
+                    <input type="number" class="form-control col-md-3" id="boardSize" name = "boardSize">
+                </div>
+            <button type="submit" class="btn btn-primary btn-sm">Botaum</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
