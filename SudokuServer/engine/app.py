@@ -4,6 +4,7 @@ import random
 from datetime import datetime
 from operator import itemgetter
 
+random.seed(datetime.now())
 
 # Tanto para vértice como para grupo. Acréscimo no primero elemento significa que se moveu para a direita
 # Acréscimo no segundo elemento do nome significa que se moveu para baixo.
@@ -13,11 +14,11 @@ from operator import itemgetter
 #supported sizes = 4,9,16
 SIZE = 9 
 
-fullColorList = ['#264653','#2a9d8f','#e9c46a',
-                 '#f4a261','#e76f51','#e63946',
-                 '#db00b6','#bdb2ff','#a8dadc',
-                 '#457b9d','#1d3557','#ffbe0b',
-                 '#fb5607','#ff006e','#8338ec','#eeef20']
+fullColorList = ['#264653','#2a9d8f','#e9c46a','#f4a261','#e76f51',
+                 '#e63946','#db00b6','#bdb2ff','#a8dadc','#457b9d',
+                 '#1d3557','#ffbe0b','#fb5607','#ff006e','#e01e37',
+                 '#0377a8','#eeef20','#118fb0','#1fa6b8','#2fb5c7'
+                 '#a71e34','#b21e35','#b24e35','#8338ec','#6e1423']
 
 def createNodes(graph,size):
     for posx in range(size):
@@ -84,8 +85,11 @@ def colorGraph(graph):
             availabilityList.append((node,len(availableNodeColors)))
             sortedAvailabilityList =sorted(availabilityList,key=takeSecond)
         
-        pickList = list(( i[0] for i in sortedAvailabilityList if i[0] not in coloredList))
-        least_available_node = pickList[0]
+        pickList = list(( i[0] for i in sortedAvailabilityList if (i[0] not in coloredList and i [1] != 0)))
+        if not coloredList:
+            least_available_node = pickList[random.randint(0,size-1)]
+        else:
+            least_available_node = pickList[0]
         lanNeighbors = list(graph.neighbors(least_available_node))
         lanNeighborsUsedColors =[]
         for lanNeighbor in lanNeighbors:
@@ -93,7 +97,8 @@ def colorGraph(graph):
                     lanNeighborsUsedColors.append(graph.nodes[lanNeighbor]['color'])
         availableLanColors = list( set(colorList) - set(lanNeighborsUsedColors))
         colorChosen = leastUsedColor(graph,availableLanColors)
-        graph.nodes[least_available_node]['color'] = colorChosen[0][0]
+        clSize = len(colorChosen)
+        graph.nodes[least_available_node]['color'] = colorChosen[random.randint(0,clSize-1)]
         coloredList.append(least_available_node)
 
     
@@ -105,15 +110,22 @@ def leastUsedColor(graph,listOfColors):
         if graph.nodes[node]['color'] != '':
             usedColors.append(graph.nodes[node]['color'])
     my_dict = {i:usedColors.count(i) for i in usedColors}
-    print(my_dict)
+    #print(my_dict)
     rankedAvbColors =[]
     for color in listOfColors:
         rankedAvbColors.append((color,my_dict.get(color,0)))
-    print(rankedAvbColors)
+    #print(rankedAvbColors)
     rankedAvbColors.sort(key=takeSecond)
-    return rankedAvbColors
+    returnableColors = list(( i[0] for i in rankedAvbColors))
+    return returnableColors
 
-
+def first_true(results,size):
+    if results[0]:
+        #print('lalalalal{}'.format(results[1]))
+        return results[1]
+    else: 
+        #print('tried{}'.format(results[1]))
+        return code_run(size)
 
 def code_run(size = 9):
     G = nx.Graph()
@@ -121,13 +133,14 @@ def code_run(size = 9):
     createNodes(G, size)
     setSubGroups(G)
     createEdges(G)
+    good = False
     try:
         colorGraph(G)
         good=True
     except IndexError:
-        print('ohoh')
+        good=False
         pass
-            
+
     newmatrix = []
     for i in range(size):
         newmatrix.append([0]* size)
@@ -137,8 +150,9 @@ def code_run(size = 9):
         posy = G.nodes[node]['posy']
         val = G.nodes[node]['color']
         newmatrix[posx-1][posy-1] = val
-    print(newmatrix)
-    return newmatrix
+
+
+    return first_true([good,newmatrix],size)
 
 
 

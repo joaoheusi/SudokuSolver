@@ -13,6 +13,7 @@
         <div class="jumbotron">
             <h1>Sudoku Solver App</h1>
             <br><br>
+            <a href="{{ url_for('home_page')}}" class="btn btn-info">Back to Description</a>
         </div>
 
     {% if newmatrix%}
@@ -22,7 +23,7 @@
         {% for lines in newmatrix %}
         <tr>
             {% for item in lines %}
-                <td style='background-color: {{item}}'> {{color_pallete.index(item)}}</td>
+                <td style='background-color: {{item}}'> {{color_pallete.index(item) + 1}}</td>
             {% endfor %}
         </tr>
         {% endfor %}
